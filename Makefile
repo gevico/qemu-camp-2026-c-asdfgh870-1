@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CFLAGS = -g -Wall -Wextra -std=c11
 
 CHECKER = c-checker
 CHECKER_SRC = checker.c

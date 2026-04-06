@@ -14,8 +14,34 @@ Student students[MAX_STUDENTS];
 Student temp[MAX_STUDENTS];
 
 void merge_sort(int left, int right) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (left >= right) {
+        return;
+    }
+    int mid = (left + right) / 2;
+    merge_sort(left, mid);
+    merge_sort(mid + 1, right);
+    int i = left, j = mid + 1, k = left;
+    while (i <= mid && j <= right) {
+        if (students[i].score >= students[j].score) {
+            temp[k] = students[i];
+            i++;
+        } else {
+            temp[k] = students[j];
+            j++;
+        }
+        k++;
+    }
+    while (i <= mid) {
+        temp[k] = students[i];
+        i++;
+        k++;
+    }
+    while (j <= right) {
+        temp[k] = students[j];
+        j++;
+        k++;
+    }
+    memcpy(students + left, temp + left, sizeof(Student) * (right - left + 1));
 }
 
 int main(void) {

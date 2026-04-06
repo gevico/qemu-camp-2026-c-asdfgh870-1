@@ -46,7 +46,7 @@ echo "🔨 编译中..."
 if [ -f "${EXERCISE_DIR}/Makefile" ]; then
     make -C "$EXERCISE_DIR"
 else
-    gcc -Wall -Wextra -std=c11 -o "$EXECUTABLE" "$SOURCE_FILE"
+    gcc -g -Wall -Wextra -std=c11 -o "$EXECUTABLE" "$SOURCE_FILE"
 fi
 
 echo "✅ 编译成功"

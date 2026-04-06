@@ -93,10 +93,10 @@
             if (strstr(source_file, "prime") != NULL) {
                 // 包含数学函数的程序需要链接数学库
                 snprintf(compile_cmd, sizeof(compile_cmd), 
-                        "cd ../exercises/%s && gcc -Wall -Wextra -std=c11 -o %s %s.c -lm 2>&1", executable, executable, executable);
+                        "cd ../exercises/%s && gcc -g -Wall -Wextra -std=c11 -o %s %s.c -lm 2>&1", executable, executable, executable);
             } else {
                 snprintf(compile_cmd, sizeof(compile_cmd), 
-                        "cd ../exercises/%s && gcc -Wall -Wextra -std=c11 -o %s %s.c 2>&1", executable, executable, executable);
+                        "cd ../exercises/%s && gcc -g -Wall -Wextra -std=c11 -o %s %s.c 2>&1", executable, executable, executable);
             }
             
             // 编译程序

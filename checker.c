@@ -79,7 +79,7 @@ static int run_test(const char *exercise_name) {
     snprintf(
         compile_cmd,
         sizeof(compile_cmd),
-        "cd tests && gcc -Wall -Wextra -std=c11 -o test_%s test_%s.c ../checker/test_framework.c -I../checker "
+        "cd tests && gcc -g -Wall -Wextra -std=c11 -o test_%s test_%s.c ../checker/test_framework.c -I../checker "
         "2>/dev/null",
         exercise_name,
         exercise_name);
