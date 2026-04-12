@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_STUDENTS 100
-#define NAME_LEN     50
+#define NAME_LEN 50
 
 typedef struct {
     char name[NAME_LEN];
@@ -12,9 +12,33 @@ typedef struct {
 
 Student students[MAX_STUDENTS];
 
+int partition(int left, int right) {
+    Student pivot = students[left];
+    int i = left, j = right;
+    while (i < j) {
+        while (i < j && students[j].score <= pivot.score) {
+            j--;
+        }
+        while (i < j && students[i].score >= pivot.score) {
+            i++;
+        }
+        Student temp = students[i];
+        students[i] = students[j];
+        students[j] = temp;
+    }
+    Student temp = students[i];
+    students[i] = students[left];
+    students[left] = temp;
+    return i;
+}
+
 void quick_sort(int left, int right) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (left >= right) {
+        return;
+    }
+    int pivot = partition(left, right);
+    quick_sort(left, pivot - 1);
+    quick_sort(pivot + 1, right);
 }
 
 int main(void) {

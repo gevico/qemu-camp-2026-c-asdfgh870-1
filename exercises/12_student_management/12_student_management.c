@@ -19,8 +19,11 @@ int main() {
     
     for (int i = 0; i < 3; i++) 
     {
-	    // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        students[i] = malloc(sizeof(Student));
+        if (fscanf(file, "%s %s %d", students[i]->id, students[i]->name, &students[i]->age) != 3) {
+            printf("读取第 %d 条记录失败\n", i);
+            return 1;
+        }
     }
     fclose(file);
     

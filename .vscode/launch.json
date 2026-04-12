@@ -8,12 +8,12 @@
             "name": "Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceRoot}/exercises/02_merge_sort/02_merge_sort",
+            "program": "${workspaceRoot}/exercises/16_mysed/16_mysed",
             "args": [],
-            "cwd": "${workspaceRoot}/exercises/02_merge_sort",
+            "cwd": "${workspaceRoot}/exercises/16_mysed",
             "stopOnEntry": false,
             "sourceMap": {
-                ".": "${workspaceRoot}/exercises/02_merge_sort",
+                ".": "${workspaceRoot}/exercises/16_mysed",
                 "../": "${workspaceRoot}/exercises"
             },
             "env": {}

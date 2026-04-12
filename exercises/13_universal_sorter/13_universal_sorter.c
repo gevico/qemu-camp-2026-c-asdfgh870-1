@@ -40,8 +40,37 @@ void processFile(const char *filename) {
     printf("=== 处理数据来自: %s ===\n", filename);
 
     switch (choice) {
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        case 1: {
+            int intArray[20];
+            for (int i = 0; i < n; i++) {
+                fscanf(fin, "%d", &intArray[i]);
+            }
+            sort(intArray, n, sizeof(int), compareInt);
+            printf("排序后的整数: ");
+            for (int i = 0; i < n; i++) {
+                printf("%d ", intArray[i]);
+            }
+            printf("\n");
+            break;
+        }
+        case 2: {
+            float floatArray[20];
+            for (int i = 0; i < n; i++) {
+                fscanf(fin, "%f", &floatArray[i]);
+            }
+            sort(floatArray, n, sizeof(float), compareFloat);
+            printf("排序后的浮点数: ");
+            for (int i = 0; i < n; i++) {
+                printf("%.2f ", floatArray[i]);
+            }
+            printf("\n");
+            break;
+        }
+        case 3:
+            break;
+        default:
+            printf("错误: 无效的排序类型\n");
+            break;
     }
 
     fclose(fin);
