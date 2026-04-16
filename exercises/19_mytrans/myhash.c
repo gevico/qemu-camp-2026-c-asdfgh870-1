@@ -1,4 +1,5 @@
 // hash_table.c
+#define _GNU_SOURCE
 #include "myhash.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,9 +57,29 @@ int hash_table_insert(HashTable *table, const char *key, const char *value) {
   unsigned long hash = hash_function(key) % HASH_TABLE_SIZE;
   HashNode *node = table->buckets[hash];
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
-
+  if(node != NULL){
+    HashNode *prev = NULL;
+    while(node) {
+      if (strcmp(node->key, key) == 0) {
+        return 0;
+      }
+      prev = node;
+      node = node->next;
+    }
+    // 在链表末尾添加新节点
+    node = malloc(sizeof(HashNode));
+    node->key = strdup(key);
+    node->value = strdup(value);
+    node->next = NULL;
+    prev->next = node;  // 将新节点添加到链表末尾
+    return 0;
+  } else {
+    node = malloc(sizeof(HashNode));
+    node->key = strdup(key);
+    node->value = strdup(value);
+    node->next = NULL;
+    table->buckets[hash] = node;  // 将新节点赋值给桶
+  }
   return 1;
 }
 
@@ -70,8 +91,14 @@ const char *hash_table_lookup(HashTable *table, const char *key) {
   unsigned long hash = hash_function(key) % HASH_TABLE_SIZE;
   HashNode *node = table->buckets[hash];
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (node != NULL){
+        while(node) {
+          if (strcmp(node->key, key) == 0) {
+            return node->value;
+          }
+          node = node->next;
+        }
+    }
 
   return NULL; // 未找到
 }

@@ -1,7 +1,7 @@
 # src/mybash/Makefile
 
 CC = gcc
-CFLAGS = -Wall -I../../include
+CFLAGS = -g -Wall -I../../include
 
 # 可执行文件名
 TARGET := mybash
@@ -10,6 +10,10 @@ BINDIR ?= ./bin
 # 中间文件目录（比如 ./obj/src/mybash/）
 OBJDIR ?= ./obj
 LINKLIBS ?= -L../../obj/mysed -L../../obj/mywc -L../../obj/mytrans -L../../obj/myfile
+LIBS ?= ../../obj/mysed/libmysed.a \
+        ../../obj/mywc/libmywc.a \
+        ../../obj/mytrans/libmytrans.a \
+        ../../obj/myfile/libmyfile.a
 
 # 源文件
 SRCS := main.c
@@ -21,8 +25,14 @@ TARGET_PATH := $(BINDIR)/$(TARGET)
 
 all: $(TARGET_PATH)
 
-# TODO: 在这里添加你的代码
-# I AM NOT DONE
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+# 编译 .c → .o
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TARGET_PATH): $(OBJS) $(LIBS)
+	$(CC) $(CFLAGS) -o $@ $< $(LINKLIBS) -lmysed -lmywc -lmytrans -lmyfile
 
 clean:
 	@rm -rf $(OBJDIR)/*.o $(TARGET_PATH)

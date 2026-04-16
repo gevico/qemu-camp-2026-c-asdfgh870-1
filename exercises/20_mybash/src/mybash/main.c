@@ -58,8 +58,25 @@ int is_builtin_command(char **args) {
   if (args[0] == NULL)
     return 0;
 
-  // TODO: 在这里添加你的代码
-  // I AM NOT DONE
+  if (strcmp(args[0], "cd") == 0) {
+    execute_cd(args);
+    return 1;
+  } else if (strcmp(args[0], "exit") == 0) {
+    execute_exit();
+    return 1;
+  }
+  for (Command *cmd = commands; cmd->name != NULL; cmd++) {
+    if (strcmp(args[0], cmd->name) == 0) {
+      if (cmd->is_arg_required == 0) {
+        cmd->func.func_0();
+      } else if (cmd->is_arg_required == 1) {
+        cmd->func.func_1(args[1]);
+      } else if (cmd->is_arg_required == 2) {
+        cmd->func.func_2(args[1], args[2]);
+      }
+      return 1;
+    }
+  }
 
   return 0;
 }
@@ -77,8 +94,27 @@ int parse_input(char *input, char **args) {
   while (*buf != '\0' && i < MAX_ARGS - 1) {
       char c = *buf;
 
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+      if(c != ' ' && !in_quotes) {
+        if (c == '"') {
+          in_quotes = 1;
+          buf++;
+          continue;
+        }
+        arg_buf[arg_buf_idx++] = c;
+      } else if (in_quotes) {
+        if(c == '"') {
+          args[i++] = strdup(arg_buf);
+          buf++;
+          in_quotes = 0;
+          arg_buf_idx = 0;
+          continue;
+        }
+        arg_buf[arg_buf_idx++] = c;
+      } else {
+        arg_buf[arg_buf_idx] = '\0';
+        args[i++] = strdup(arg_buf);
+        arg_buf_idx = 0;
+      }
 
       buf++;
   }

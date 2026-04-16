@@ -8,13 +8,13 @@
             "name": "Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceRoot}/exercises/16_mysed/16_mysed",
-            "args": [],
-            "cwd": "${workspaceRoot}/exercises/16_mysed",
+            "program": "${workspaceRoot}/exercises/20_mybash/bin/mybash",
+            "args": ["cmd.txt"],
+            "cwd": "${workspaceRoot}/exercises/20_mybash",
             "stopOnEntry": false,
             "sourceMap": {
-                ".": "${workspaceRoot}/exercises/16_mysed",
-                "../": "${workspaceRoot}/exercises"
+                ".": "${workspaceRoot}/exercises/20_mybash/src/mybash",
+                "../": "${workspaceRoot}/exercises/20_mybash" 
             },
             "env": {}
         }

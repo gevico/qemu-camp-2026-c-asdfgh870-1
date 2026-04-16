@@ -7,8 +7,8 @@
 #include <string.h>
 
 void trim(char *str) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+  str[strcspn(str, ",")] = '\0';
+  str[strcspn(str, ".")] = '\0';
 }
 
 int load_dictionary(const char *filename, HashTable *table,
@@ -22,10 +22,19 @@ int load_dictionary(const char *filename, HashTable *table,
   char line[1024];
   char current_word[100] = {0};
   char current_translation[1024] = {0};
-  int in_entry = 0;
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+  while(fgets(line, sizeof(line), file) != NULL){
+    line[strcspn(line, "\n")] = '\0';
+    // 去掉#前缀，从 line+1 开始复制单词
+    strcpy(current_word, line + 1);
+    if (fgets(line, sizeof(line), file) != NULL) {
+      line[strcspn(line, "\n")] = '\0';
+      // 去掉"Trans:"前缀，从 line+6 开始复制翻译
+      strcpy(current_translation, line + 6);
+      hash_table_insert(table, current_word, current_translation);
+      (*dict_count)++;
+    }
+  }
 
   fclose(file);
   return 0;
@@ -45,7 +54,7 @@ int __cmd_mytrans(const char* filename) {
 
   printf("=== 哈希表版英语翻译器（支持百万级数据）===\n");
   uint64_t dict_count = 0;
-  if (load_dictionary("/workspace/exercises/20_mybash/src/mytrans/dict.txt", table, &dict_count) != 0) {
+  if (load_dictionary("../exercises/20_mybash/src/mytrans/dict.txt", table, &dict_count) != 0) {
     fprintf(stderr, "加载词典失败，请确保 dict.txt 存在。\n");
     free_hash_table(table);
     return 1;
@@ -54,7 +63,7 @@ int __cmd_mytrans(const char* filename) {
 
   FILE* file = fopen(filename, "r");
   if (file == NULL) {
-    fprintf(stderr, "无法打开文件 dict.txt。\n");
+    fprintf(stderr, "无法打开文件 text.txt。\n");
     free_hash_table(table);
     return 1;
   }
@@ -68,17 +77,17 @@ int __cmd_mytrans(const char* filename) {
     }
 
     // 使用 strtok 按空格分割单词
-    char *word = strtok(line, " ");
-    while (word != NULL) {
-      const char *translation = hash_table_lookup(table, word);
-      printf("原文: %s\t", word);
-      if (translation) {
-          printf("翻译: %s\n", translation);
-      } else {
-          printf("未找到该单词的翻译。\n");
-      }
-
-      word = strtok(NULL, " ");
+    char *token = strtok(line, " ");
+    while (token != NULL) {
+        to_lowercase(token);
+        trim(token);
+        const char *translation = hash_table_lookup(table, token);
+        if (translation != NULL) {
+            printf("原文: %s\t翻译: %s \n", token, translation);
+        } else {
+            printf("原文: %s\t未找到该单词的翻译。\n", token);
+        }
+        token = strtok(NULL, " ");
     }
   }
 

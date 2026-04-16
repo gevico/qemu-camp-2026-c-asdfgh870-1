@@ -1,7 +1,7 @@
 # src/myfile/Makefile
 
 CC = gcc
-CFLAGS = -Wall -I../../include -g -fPIE
+CFLAGS = -g -Wall -I../../include -g -fPIE
 
 # 库名称
 LIBNAME := myfile
@@ -19,8 +19,17 @@ OBJS := $(patsubst %.o,$(OBJDIR)/%.o,$(OBJS))
 
 all: $(LIB_PATH)
 
-# TODO: 在这里添加你的代码
-# I AM NOT DONE
+# 编译 .c → .o,
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 打包 .o → 静态库 .a
+# rcs：
+# r：替换 / 添加文件
+# c：创建库
+# s：生成索引（加速链接）
+$(LIB_PATH): $(OBJS)
+	ar rcs $@ $^
 
 clean:
 	@rm -rf $(OBJDIR)/*.o $(LIB_PATH)
