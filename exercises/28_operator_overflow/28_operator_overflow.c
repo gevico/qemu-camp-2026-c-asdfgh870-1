@@ -7,8 +7,11 @@
 int check_add_overflow_asm(unsigned int a, unsigned int b) {
     unsigned char carry;
     __asm__ volatile(
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        "add %2, %1\n\t"       // eax = a + b
+        "setc %0"              // 有进位 CF=1 → carry=1（溢出）
+        : "=r"(carry)
+        : "a"(a), "r"(b)
+        : "cc"
     );
     return carry;
 }
@@ -16,27 +19,36 @@ int check_add_overflow_asm(unsigned int a, unsigned int b) {
 int check_sub_overflow_asm(unsigned int a, unsigned int b) {
     unsigned char carry;
     __asm__ volatile(
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        "sub %2, %1\n\t"       // eax = a - b
+        "setc %0"              // 有借位 CF=1 → 溢出
+        : "=r"(carry)
+        : "a"(a), "r"(b)
+        : "cc"
     );
     return carry;
 }
 
 int check_mul_overflow_asm(unsigned int a, unsigned int b) {
     unsigned int high_bits;
-    unsigned char overflow;
     __asm__ volatile(
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        "xor %%edx, %%edx\n\t" // 清空 edx
+        "mul %2\n\t"           // eax * b → edx:eax
+        "mov %%edx, %0"        // 高32位存入 high_bits
+        : "=r"(high_bits)
+        : "a"(a), "r"(b)
+        : "edx", "cc"
     );
-    return overflow || (high_bits != 0);
+    return  (high_bits != 0);
 }
 
 int check_div_overflow_asm(unsigned int a, unsigned int b) {
     unsigned char is_div_zero;
     __asm__ volatile(
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        "test %1, %1\n\t"      // 判断 b 是否为 0
+        "setz %0"              // 为 0 → 设置 1
+        : "=r"(is_div_zero)
+        : "r"(b)
+        : "cc"
     );
     return is_div_zero;
 }

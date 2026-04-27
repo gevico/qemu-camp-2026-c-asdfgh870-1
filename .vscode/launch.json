@@ -8,13 +8,13 @@
             "name": "Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceRoot}/exercises/23_circular_linked_list_josephus/23_circular_linked_list_josephus",
+            "program": "${workspaceRoot}/exercises/26_hash_counter/26_hash_counter",
             "args": ["cmd.txt"],
-            "cwd": "${workspaceRoot}/exercises/23_circular_linked_list_josephus",
+            "cwd": "${workspaceRoot}/exercises/26_hash_counter",
             "stopOnEntry": false,
             "sourceMap": {
-                ".": "${workspaceRoot}/exercises/23_circular_linked_list_josephus/23_circular_linked_list_josephus",
-                "../": "${workspaceRoot}/exercises/23_circular_linked_list_josephus" 
+                ".": "${workspaceRoot}/exercises/26_hash_counter",
+                "../": "${workspaceRoot}/exercises/26_hash_counter" 
             },
             "env": {}
         }

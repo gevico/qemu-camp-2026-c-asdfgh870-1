@@ -22,15 +22,48 @@ TreeNode* create_node(char letter) {
 
 // 向BST中插入节点或更新计数
 TreeNode* insert_or_update(TreeNode* root, char letter) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (root == NULL) {
+        return create_node(letter);
+    }
+    if (tolower(letter) < root->letter) {
+        root->left = insert_or_update(root->left, letter);
+    } else if (tolower(letter) > root->letter) {
+        root->right = insert_or_update(root->right, letter);
+    } else {
+        root->count++;
+    }
+    return root;
 }
 
 // 中序遍历BST并打印结果（按字母顺序）
 void inorder_traversal(TreeNode* root) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
-    printf("%c:%d\n", root->letter, root->count);
+    if (root != NULL) {
+        TreeNode* cur = root;
+        TreeNode* mostRight = NULL;
+        while (cur != NULL) {
+            // cur表示当前节点，mostRight表示cur的左孩子的最右节点
+            mostRight = cur->left;
+            if (mostRight != NULL) {
+                // cur有左孩子，找到cur左子树最右节点
+                while (mostRight->right != NULL && mostRight->right != cur) {
+                    mostRight = mostRight->right;
+                }
+                // mostRight的右孩子指向空，让其指向cur，cur向左移动
+                if (mostRight->right == NULL) {
+                    mostRight->right = cur;
+                    cur = cur->left;
+                    continue;            // 直接进入下一次循环（容易忘）
+                } else {
+                    printf("%c:%d\n", cur->letter, cur->count);        // 第二次到达，记录答案 
+                    mostRight->right = NULL;  // mostRight的右孩子指向cur，让其指向空，cur向右移动     
+                    cur = cur->right;
+                }
+            } else {
+                printf("%c:%d\n", cur->letter, cur->count);   // 没有左子树的节点只到达一次直接记录答案, cur 向右移动
+                cur = cur->right;
+            }
+        }
+    }
 }
 
 // 释放BST内存
