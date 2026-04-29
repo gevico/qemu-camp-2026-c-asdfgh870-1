@@ -10,14 +10,29 @@
 
 /* 判断字符 c 是否在分隔符集合 delim 中 */
 static int is_delim(char c, const char *delim) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    for (int i = 0; delim[i] != '\0'; i++) {
+        if (c == delim[i]) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 /* 线程安全版本：通过 saveptr 维护调用状态，不使用静态变量 */
 char *strtok_r(char *str, const char *delim, char **saveptr) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (str == NULL) {
+        str = *saveptr;
+    }
+    if (*str == '\0') {
+        *saveptr = str;
+        return NULL;
+    }
+    char *tok = str;
+    while (*tok != '\0' && !is_delim(*tok, delim)) {
+        tok++;
+    }
+    *saveptr = tok + 1;
+    return str;
 }
 
 int main(void) {
